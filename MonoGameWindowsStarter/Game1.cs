@@ -14,6 +14,7 @@ namespace MonoGameWindowsStarter
         SpriteBatch spriteBatch;
         Ball ball;
         Paddle paddle;
+        Paddle paddleRight;
 
         public Random Random = new Random();
         
@@ -26,6 +27,7 @@ namespace MonoGameWindowsStarter
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             paddle = new Paddle(this);
+            paddleRight = new Paddle(this);
             ball = new Ball(this);
         }
 
@@ -42,7 +44,8 @@ namespace MonoGameWindowsStarter
             graphics.PreferredBackBufferHeight = 768;
             graphics.ApplyChanges();
             ball.Initialize();
-            paddle.Initialize();
+            paddle.Initialize(0);
+            paddleRight.Initialize(1);
             base.Initialize();
         }
 
@@ -56,6 +59,7 @@ namespace MonoGameWindowsStarter
             spriteBatch = new SpriteBatch(GraphicsDevice);
             ball.LoadContent(Content);
             paddle.LoadContent(Content);
+            paddleRight.LoadContent(Content);
         }
 
         /// <summary>
@@ -83,12 +87,20 @@ namespace MonoGameWindowsStarter
                 Exit();
 
             paddle.Update(gameTime);
+            paddleRight.Update(gameTime);
             ball.Update(gameTime);
 
             if(paddle.Bounds.CollidesWith(ball.Bounds)) {
                 ball.Velocity.X *= -1;
                 var delta =  (paddle.Bounds.X + paddle.Bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
                 ball.Bounds.X += 2*delta;
+            }
+
+            if (paddleRight.Bounds.CollidesWith(ball.Bounds))
+            {
+                ball.Velocity.X *= -1;
+                var delta = (paddle.Bounds.X + paddle.Bounds.Width) - (ball.Bounds.X - ball.Bounds.Radius);
+                ball.Bounds.X -= 2 * delta;
             }
 
             // TODO: Add your update logic here
@@ -110,7 +122,7 @@ namespace MonoGameWindowsStarter
 
             ball.Draw(spriteBatch);
             paddle.Draw(spriteBatch);
-            
+            paddleRight.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

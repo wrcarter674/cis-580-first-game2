@@ -43,12 +43,20 @@ namespace MonoGameWindowsStarter
         /// Initializes the paddle, setting its initial size 
         /// and centering it on the left side of the screen.
         /// </summary>
-        public void Initialize()
+        public void Initialize(int right)
         {
             Bounds.Width = 25;
             Bounds.Height = 200;
-            Bounds.X = 0;
+            
             Bounds.Y = game.GraphicsDevice.Viewport.Height / 2 - Bounds.Height / 2;
+            if(right == 0)
+            {
+                Bounds.X = 0;
+            }
+            else
+            {
+                Bounds.X = game.GraphicsDevice.Viewport.Width - Bounds.Width;
+            }
         }
 
         /// <summary>

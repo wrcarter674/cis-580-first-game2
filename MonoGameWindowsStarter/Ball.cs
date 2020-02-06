@@ -63,6 +63,7 @@ namespace MonoGameWindowsStarter
                 (float)game.Random.NextDouble()
             );
             Velocity = new Vector2(-1, -1);
+            Velocity = Velocity * 3;
             Velocity.Normalize();
         }
 
