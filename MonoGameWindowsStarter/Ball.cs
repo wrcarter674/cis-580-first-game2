@@ -28,7 +28,8 @@ namespace MonoGameWindowsStarter
         /// The ball's bounds
         /// </summary>
         public BoundingCircle Bounds;
-
+        private int leftCount = 0;
+        private int rightCount = 0;
         /// <summary>
         /// The ball's velocity vector
         /// </summary>
@@ -62,8 +63,8 @@ namespace MonoGameWindowsStarter
                 (float)game.Random.NextDouble(),
                 (float)game.Random.NextDouble()
             );
-            Velocity = new Vector2(-1, -1);
-            Velocity = Velocity * 3;
+            //Velocity = new Vector2(-1, -1);
+          
             Velocity.Normalize();
         }
 
@@ -84,7 +85,7 @@ namespace MonoGameWindowsStarter
         {
             var viewport = game.GraphicsDevice.Viewport;
 
-            Bounds.Center += 0.5f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
+            Bounds.Center += .9f * (float)gameTime.ElapsedGameTime.TotalMilliseconds * Velocity;
 
             // Check for wall collisions
             if (Bounds.Center.Y < Bounds.Radius)
@@ -106,14 +107,23 @@ namespace MonoGameWindowsStarter
                 //Velocity.X *= -1;
                 //float delta = Bounds.Radius - Bounds.X;
                 //Bounds.X += 2 * delta;
-                Velocity = Vector2.Zero;
+                // Velocity = Vector2.Zero;
+                rightCount++;
+                Bounds.X = game.GraphicsDevice.Viewport.Width / 2;
+                Bounds.Y = game.GraphicsDevice.Viewport.Height / 2;
             }
 
             if (Bounds.X > viewport.Width - Bounds.Radius)
             {
+                /*
                 Velocity.X *= -1;
                 float delta = viewport.Width - Bounds.Radius - Bounds.X;
                 Bounds.X += 2 * delta;
+                */
+                //  Velocity = Vector2.Zero;
+                leftCount++;
+                Bounds.X = game.GraphicsDevice.Viewport.Width / 2;
+                Bounds.Y = game.GraphicsDevice.Viewport.Height / 2;
             }
         }
 
@@ -129,5 +139,16 @@ namespace MonoGameWindowsStarter
         {
             spriteBatch.Draw(texture, Bounds, Color.White);
         }
+
+        public int LeftCount()
+        {
+            return leftCount;
+        }
+
+        public int RightCount()
+        {
+            return rightCount;
+        }
+
     }
 }

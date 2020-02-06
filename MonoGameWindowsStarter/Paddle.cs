@@ -72,22 +72,39 @@ namespace MonoGameWindowsStarter
         /// Updates the paddle
         /// </summary>
         /// <param name="gameTime">The game's GameTime</param>
-        public void Update(GameTime gameTime)
+        public void Update(GameTime gameTime, int right)
         {
             var keyboardState = Keyboard.GetState();
 
             // Move the paddle up if the up key is pressed
-            if (keyboardState.IsKeyDown(Keys.Up))
+            if (right == 1)
             {
-                // move up
-                Bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
-            }
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    // move up
+                    Bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
 
-            // Move the paddle down if the down key is pressed
-            if (keyboardState.IsKeyDown(Keys.Down))
+                // Move the paddle down if the down key is pressed
+                if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    // move down
+                    Bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
+            }
+            else
             {
-                // move down
-                Bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (keyboardState.IsKeyDown(Keys.W))
+                {
+                    // move up
+                    Bounds.Y -= (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
+                // Move the paddle down if the down key is pressed
+                if (keyboardState.IsKeyDown(Keys.S))
+                {
+                    // move down
+                    Bounds.Y += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+                }
             }
 
             // Stop the paddle from going off-screen
